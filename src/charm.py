@@ -66,7 +66,7 @@ class HelloKubeconCharm(CharmBase):
                     "command": "/gosherve",
                     "startup": "enabled",
                     "environment": {
-                        "REDIRECT_MAP_URL": self.model.config["redirect-map"]
+                        "REDIRECT_MAP_URL": self.config["redirect-map"]
                     },
                 }
             },
@@ -74,7 +74,7 @@ class HelloKubeconCharm(CharmBase):
 
     def _check_config(self):
         """Check that everything is in place to start Gosherve"""
-        if self.model.config["redirect-map"] == "":
+        if not self.config["redirect-map"]:
             logger.warning("Cannot start Gosherve without 'redirect-map' configuration")
             self.unit.status = BlockedStatus("No 'redirect-map' config specified")
             return False
