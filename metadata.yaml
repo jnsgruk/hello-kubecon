@@ -15,8 +15,15 @@ bases:
 containers:
   gosherve:
     resource: gosherve-image
+    mounts:
+      - storage: webroot
+        location: /srv
 
 resources:
   gosherve-image:
     type: oci-image
     description: OCI image for gosherve
+
+storage:
+  webroot:
+    type: filesystem

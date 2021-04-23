@@ -20,13 +20,21 @@ from ops.model import ActiveStatus, BlockedStatus
 
 logger = logging.getLogger(__name__)
 
+STORAGE_PATH = "/var/lib/juju/storage/webroot/0"
+
 
 class HelloKubeconCharm(CharmBase):
     """Charm the service."""
 
     def __init__(self, *args):
         super().__init__(*args)
+        self.framework.observe(self.on.install, self._on_install)
         self.framework.observe(self.on.config_changed, self._on_config_changed)
+
+    def _on_install(self, _):
+        # Make sure a simple site is present for the workload
+        with open(f"{STORAGE_PATH}/index.html", "w") as f:
+            f.write("<h1>Hello, Kubecon!</h1>")
 
     def _on_config_changed(self, event):
         """Handle the config-changed event"""
@@ -66,7 +74,8 @@ class HelloKubeconCharm(CharmBase):
                     "command": "/gosherve",
                     "startup": "enabled",
                     "environment": {
-                        "REDIRECT_MAP_URL": self.model.config["redirect-map"]
+                        "REDIRECT_MAP_URL": self.model.config["redirect-map"],
+                        "WEBROOT": "/srv",
                     },
                 }
             },
