@@ -4,7 +4,7 @@ name: hello-kubecon
 description: |
   A basic demonstration charm that hosts a placeholder webpage with links
   to various Juju/Charmed Operator SDK pages. Hosted using a small, custom
-  webserve written in Go (https://github.com/jnsgruk/gosherve). Illustrates
+  webserver written in Go (https://github.com/jnsgruk/gosherve). Illustrates
   the use of charm workloads, actions, config, storage and relations.
 summary: |
   A demonstration charm for Kubecon Operator Day 2021.
