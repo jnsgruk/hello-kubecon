@@ -27,3 +27,7 @@ resources:
 storage:
   webroot:
     type: filesystem
+
+requires:
+  ingress:
+    interface: ingress
