@@ -1,0 +1,22 @@
+# Copyright 2021 Jon Seager
+# See LICENSE file for licensing details.
+name: hello-kubecon
+description: |
+  A basic demonstration charm that hosts a placeholder webpage with links
+  to various Juju/Charmed Operator SDK pages. Hosted using a small, custom
+  webserve written in Go (https://github.com/jnsgruk/gosherve). Illustrates
+  the use of charm workloads, actions, config, storage and relations.
+summary: |
+  A demonstration charm for Kubecon Operator Day 2021.
+bases:
+  - name: ubuntu
+    channel: 20.04/stable
+
+containers:
+  gosherve:
+    resource: gosherve-image
+
+resources:
+  gosherve-image:
+    type: oci-image
+    description: OCI image for gosherve
