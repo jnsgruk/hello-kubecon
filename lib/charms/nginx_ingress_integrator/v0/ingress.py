@@ -19,7 +19,8 @@ Import `IngressRequires` in your charm, with two required options:
     - session-cookie-max-age
     - tls-secret-name
 
-See [the config section](https://charmhub.io/nginx-ingress-integrator/configure) for descriptions of each, along with the required type.
+See [the config section](https://charmhub.io/nginx-ingress-integrator/configure)
+for descriptions of each, along with the required type.
 
 As an example, add the following to `src/charm.py`:
 ```

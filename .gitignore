@@ -1,3 +1,8 @@
 venv/
 build/
 *.charm
+
+.flake8
+.coverage
+**/__pycache__/
+.py[cod]
