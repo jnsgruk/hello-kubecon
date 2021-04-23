@@ -8,9 +8,6 @@ description: |
   the use of charm workloads, actions, config, storage and relations.
 summary: |
   A demonstration charm for Kubecon Operator Day 2021.
-bases:
-  - name: ubuntu
-    channel: 20.04/stable
 
 containers:
   gosherve:
