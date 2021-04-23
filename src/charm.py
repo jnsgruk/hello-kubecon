@@ -35,6 +35,7 @@ class HelloKubeconCharm(CharmBase):
         super().__init__(*args)
         self.framework.observe(self.on.install, self._on_install)
         self.framework.observe(self.on.config_changed, self._on_config_changed)
+        self.framework.observe(self.on.pull_site_action, self._pull_site_action)
 
     def _on_install(self, _):
         # Download the site
@@ -113,6 +114,11 @@ class HelloKubeconCharm(CharmBase):
         # Move the downloaded web files into place
         shutil.move(src="/tmp/site/test-site-master", dst=f"{STORAGE_PATH}/hello-kubecon")
         self.unit.status = ActiveStatus()
+
+    def _pull_site_action(self, event):
+        """Action handler that pulls the latest site archive and unpacks it"""
+        self._fetch_site()
+        event.set_results({"result": "site pulled"})
 
 
 if __name__ == "__main__":
