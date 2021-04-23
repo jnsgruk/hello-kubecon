@@ -13,14 +13,19 @@ develop a new k8s charm using the Operator Framework:
 """
 
 import logging
+import shutil
+from os.path import isdir
+from urllib.request import urlopen
+from zipfile import ZipFile
 
 from ops.charm import CharmBase
 from ops.main import main
-from ops.model import ActiveStatus, BlockedStatus
+from ops.model import ActiveStatus, BlockedStatus, MaintenanceStatus
 
 logger = logging.getLogger(__name__)
 
 STORAGE_PATH = "/var/lib/juju/storage/webroot/0"
+SITE_SRC = "https://jnsgr.uk/demo-site"
 
 
 class HelloKubeconCharm(CharmBase):
@@ -32,9 +37,8 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.config_changed, self._on_config_changed)
 
     def _on_install(self, _):
-        # Make sure a simple site is present for the workload
-        with open(f"{STORAGE_PATH}/index.html", "w") as f:
-            f.write("<h1>Hello, Kubecon!</h1>")
+        # Download the site
+        self._fetch_site()
 
     def _on_config_changed(self, event):
         """Handle the config-changed event"""
@@ -75,7 +79,7 @@ class HelloKubeconCharm(CharmBase):
                     "startup": "enabled",
                     "environment": {
                         "REDIRECT_MAP_URL": self.model.config["redirect-map"],
-                        "WEBROOT": "/srv",
+                        "WEBROOT": "/srv/hello-kubecon",
                     },
                 }
             },
@@ -88,6 +92,27 @@ class HelloKubeconCharm(CharmBase):
             self.unit.status = BlockedStatus("No 'redirect-map' config specified")
             return False
         return True
+
+    def _fetch_site(self):
+        """Fetch latest copy of website from Github and move into webroot"""
+        # Set some status and do some logging
+        self.unit.status = MaintenanceStatus("Fetching web site")
+        logger.info("Downloading site archive from %s", SITE_SRC)
+        # Download the zip
+        resp = urlopen(SITE_SRC)
+        with open("/tmp/site.zip", "wb") as tmp:
+            tmp.write(resp.read())
+
+        # Extract the zip
+        with ZipFile("/tmp/site.zip") as zf:
+            zf.extractall(path="/tmp/site")
+
+        # Remove existing version if it exists
+        if isdir(f"{STORAGE_PATH}/hello-kubecon"):
+            shutil.rmtree(f"{STORAGE_PATH}/hello-kubecon")
+        # Move the downloaded web files into place
+        shutil.move(src="/tmp/site/test-site-master", dst=f"{STORAGE_PATH}/hello-kubecon")
+        self.unit.status = ActiveStatus()
 
 
 if __name__ == "__main__":
