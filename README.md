@@ -1,16 +1,33 @@
-## Kubecon Demonstration Charm
+# Operator Day 2021 Demonstration Charm
 
-This charm is a demonstration of the new Sidecar Charm pattern for Juju 2.9. It uses [Pebble](https://github.com/canonical/pebble) and the [Python Operator Framework](https://pythonoperatorframework.io). It deploys a copy of [gosherve](https://github.com/jnsgruk/gosherve) and relies upon the sidecar container to populate a shared volume with web files.
+- [Overview](#overview)
+  - [Development Setup](#development-setup)
+  - [Deploy](#deploy)
+  - [Testing](#testing)
+- [Get Help & Community](#get-help---community)
+- [More Information/Related](#more-information-related)
 
-Overview of features:
+## Overview
+
+This charm is a demonstration of a charm implemeting the sidecar pattern used
+during
+[Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/).
+The charm is written using the
+[Charmed Operator Framework](https://github.com/canonical/operator).
+It deploys [gosherve](https://github.com/jnsgruk/gosherve), relying upon the
+charm container to populate a shared volume with a simple landing-page style
+website and configure the app before it is started.
+
+Overview of charm features:
 
 - Deploy a container running [gosherve](https://github.com/jnsgruk/gosherve)
-- Charm container fetches a zip archive of a website [from Github](https://jnsgr.uk/demo-site-repo)
-- Charm container puts the contents of the archive in a storage volume
-- Once a `redirect-map` config item is set, `gosherve` is started
-- There is a `pull-site` action which will pull the latest version of the test site and extract it
-- Ingress relation is implemented and creates a hostname "hellokubecon.juju"
-- Since we're deploying on microk8s we set the ingress-class to "public"
+- Fetch a zip archive of a website [from Github](https://jnsgr.uk/demo-site-repo)
+- Place contents of the archive in a storage volume
+- Expose a `redirect-map` config item to configure
+  [gosherve](https://github.com/jnsgruk/gosherve) redirects
+- Expose a `pull-site` action to pull the latest version of the test site
+- Ingress relation is implemented using the
+  [`nginx-ingress-integrator`](https://charmhub.io/nginx-ingress-integrator) library
 
 Each branch of this repository represents a different stage from the demonstration:
 
@@ -22,37 +39,42 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`6-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/6-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-### Getting Started
+### Development Setup
 
-To build it locally. To setup a local test environment with [MicroK8s](https://microk8s.io), do the following:
+To set up a local test environment with [MicroK8s](https://microk8s.io):
 
 ```bash
+# Install MicroK8s
 $ sudo snap install --classic microk8s
-$ sudo usermod -aG microk8s $(whoami)
-$ sudo microk8s enable storage dns
+# Wait for MicroK8s to be ready
+$ sudo microk8s status --wait-ready
+# Enable features required by Juju controller & charm
+$ sudo microk8s enable storage dns ingress
+# (Optional) Alias kubectl bundled with MicroK8s package
 $ sudo snap alias microk8s.kubectl kubectl
+# (Optional) Add current user to 'microk8s' group
+# This avoid needing to use 'sudo' with the 'microk8s' command
+$ sudo usermod -aG microk8s $(whoami)
+# Activate the new group (in the current shell only)
+# Log out and log back in to make the change system-wide
 $ newgrp microk8s
-```
-
-Next install Charmcraft and build the Charm
-
-```bash
 # Install Charmcraft
-$ sudo snap install charmcraft --edge
-# Clone an example charm
-$ git clone https://github.com/jnsgruk/hello-kubecon
-# Build the charm
-$ cd hello-kubecon
-$ charmcraft build
+$ sudo snap install charmcraft --classic --edge
+# Install juju
+$ sudo snap install juju --classic --channel=2.9/candidate
+# Bootstrap the Juju controller on MicroK8s
+$ juju bootstrap microk8s micro
 ```
 
-Now you're ready to deploy the Charm:
+### Deploy
 
 ```bash
-# For now, we require the 2.9/edge channel until features land in candidate/stable
-$ sudo snap refresh juju --channel=2.9/edge
+# Clone the charm code
+$ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
+# Build the charm package
+$ charmcraft build
 # Create a model for our deployment
-$ juju add-model kubecon
+$ juju add-model development
 # Deploy!
 $ juju deploy ./hello-kubecon.charm \
     --resource gosherve-image=jnsgruk/gosherve:latest \
@@ -69,4 +91,42 @@ $ echo "127.0.1.1 hellokubecon.juju" | sudo tee -a /etc/hosts
 $ watch -n1 --color juju status --color
 ```
 
-You should be able to visit http://hellokubecon.juju in your browser.
+You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
+in your browser.
+
+### Testing
+
+```bash
+# Clone the charm code
+$ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
+# Install python3-virtualenv
+$ sudo apt update && sudo apt install -y python3-virtualenv
+# Create a virtualenv for the charm code
+$ virtualenv venv
+# Activate the venv
+$ source ./venv/bin/activate
+# Install dependencies
+$ pip install -r requirements-dev.txt
+# Run the tests
+$ ./run_tests
+
+```
+
+## Get Help & Community
+
+If you get stuck deploying this charm, or would like help with charming
+generally, come and join the charming community!
+
+- [Community Discourse](https://discourse.charmhub.io)
+- [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
+
+## More Information/Related
+
+Below are some links related to this demonstration:
+
+- [Charmed Operator Framework Documentation](https://juju.is/docs/sdk)
+- [Charmed Operator Framework Source](https://github.com/canonical/operator)
+- [Juju Documentation](https://juju.is/docs/olm)
+- [Charmhub](https://charmhub.io)
+- [Pebble](https://github.com/canonical/github)
+- [The Future of Charmed Operators on Kubernetes](https://discourse.charmhub.io/t/4361)
