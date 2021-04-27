@@ -1,16 +1,17 @@
 # Operator Day 2021 Demonstration Charm
 
 - [Overview](#overview)
-  - [Development Setup](#development-setup)
-  - [Deploy](#deploy)
-  - [Testing](#testing)
+- [Quickstart](#quickstart)
+- [Development Setup](#development-setup)
+- [Build and deploy locally](#deploy-and-build-from-source)
+- [Testing](#testing)
 - [Get Help & Community](#get-help---community)
 - [More Information/Related](#more-information-related)
 
 ## Overview
 
-This charm is a demonstration of a charm implemeting the sidecar pattern used
-during
+This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
+implemeting the sidecar pattern used during
 [Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/).
 The charm is written using the
 [Charmed Operator Framework](https://github.com/canonical/operator).
@@ -18,15 +19,21 @@ It deploys [gosherve](https://github.com/jnsgruk/gosherve), relying upon the
 charm container to populate a shared volume with a simple landing-page style
 website and configure the app before it is started.
 
-Overview of charm features:
+Slides for the demo [are available](https://jnsgr.uk/demo-slides) and there
+is a supporting [Github Gist](https://jnsgr.uk/demo-gist) that contains copy-and-
+pastable content from the slide deck.
+
+The finished charm is published [on Charmhub](https://charmhub.io/hello-kubecon).
+
+The charm will:
 
 - Deploy a container running [gosherve](https://github.com/jnsgruk/gosherve)
-- Fetch a zip archive of a website [from Github](https://jnsgr.uk/demo-site-repo)
-- Place contents of the archive in a storage volume
+- Fetch a website [from Github](https://jnsgr.uk/demo-site-repo)
+- Place the downloaded file in a storage volume
 - Expose a `redirect-map` config item to configure
   [gosherve](https://github.com/jnsgruk/gosherve) redirects
 - Expose a `pull-site` action to pull the latest version of the test site
-- Ingress relation is implemented using the
+- Utilise an ingress relation using the
   [`nginx-ingress-integrator`](https://charmhub.io/nginx-ingress-integrator) library
 
 Each branch of this repository represents a different stage from the demonstration:
@@ -38,7 +45,30 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-### Development Setup
+## Quickstart
+
+Assuming you already have Juju installed and bootstrapped on a cluster (if you
+do not, see the next section):
+
+```bash
+# Deploy the charm
+$ juju deploy hello-kubecon --config redirect-map="https://jnsgr.uk/demo-routes"
+# Deploy the ingress integrator
+$ juju deploy nginx-ingress-integrator
+# Relate our app to the ingress
+$ juju relate hello-kubecon nginx-ingress-integrator
+# Set the ingress class
+$ juju config nginx-ingress-integrator ingress-class="public"
+# Add an entry to /etc/hosts
+$ echo "127.0.1.1 hellokubecon.juju" | sudo tee -a /etc/hosts
+# Wait for the deployment to complete
+$ watch -n1 --color juju status --color
+```
+
+You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
+in your browser.
+
+## Development Setup
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
 
@@ -63,17 +93,17 @@ $ sudo snap install charmcraft --classic --edge
 $ sudo snap install juju --classic --channel=2.9/candidate
 # Bootstrap the Juju controller on MicroK8s
 $ juju bootstrap microk8s micro
+# Add a new model to Juju
+$ juju add-model development
 ```
 
-### Deploy
+## Build and deploy from source
 
 ```bash
 # Clone the charm code
 $ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
 # Build the charm package
 $ charmcraft build
-# Create a model for our deployment
-$ juju add-model development
 # Deploy!
 $ juju deploy ./hello-kubecon.charm \
     --resource gosherve-image=jnsgruk/gosherve:latest \
@@ -93,7 +123,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-### Testing
+## Testing
 
 ```bash
 # Clone the charm code
@@ -108,7 +138,6 @@ $ source ./venv/bin/activate
 $ pip install -r requirements-dev.txt
 # Run the tests
 $ ./run_tests
-
 ```
 
 ## Get Help & Community
