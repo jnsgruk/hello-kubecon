@@ -19,8 +19,8 @@ Import `IngressRequires` in your charm, with two required options:
     - session-cookie-max-age
     - tls-secret-name
 
-See [the config section](https://charmhub.io/nginx-ingress-integrator/configure)
-for descriptions of each, along with the required type.
+See [the config section](https://charmhub.io/nginx-ingress-integrator/configure) for descriptions
+of each, along with the required type.
 
 As an example, add the following to `src/charm.py`:
 ```
@@ -56,7 +56,7 @@ LIBAPI = 0
 
 # Increment this PATCH version before using `charmcraft publish-lib` or reset
 # to 0 if you are raising the major API version
-LIBPATCH = 4
+LIBPATCH = 5
 
 logger = logging.getLogger(__name__)
 
@@ -105,17 +105,24 @@ class IngressRequires(Object):
         """Check our config dict for errors."""
         blocked_message = "Error in ingress relation, check `juju debug-log`"
         unknown = [
-            x for x in self.config_dict if x not in REQUIRED_INGRESS_RELATION_FIELDS | OPTIONAL_INGRESS_RELATION_FIELDS
+            x
+            for x in self.config_dict
+            if x not in REQUIRED_INGRESS_RELATION_FIELDS | OPTIONAL_INGRESS_RELATION_FIELDS
         ]
         if unknown:
-            logger.error("Ingress relation error, unknown key(s) in config dictionary found: %s", ", ".join(unknown))
+            logger.error(
+                "Ingress relation error, unknown key(s) in config dictionary found: %s",
+                ", ".join(unknown),
+            )
             self.model.unit.status = BlockedStatus(blocked_message)
             return True
         if not update_only:
             missing = [x for x in REQUIRED_INGRESS_RELATION_FIELDS if x not in self.config_dict]
             if missing:
                 logger.error(
-                    "Ingress relation error, missing required key(s) in config dictionary: %s", ", ".join(missing))
+                    "Ingress relation error, missing required key(s) in config dictionary: %s",
+                    ", ".join(missing),
+                )
                 self.model.unit.status = BlockedStatus(blocked_message)
                 return True
         return False
@@ -169,12 +176,22 @@ class IngressProvides(Object):
         }
 
         missing_fields = sorted(
-            [field for field in REQUIRED_INGRESS_RELATION_FIELDS if ingress_data.get(field) is None]
+            [
+                field
+                for field in REQUIRED_INGRESS_RELATION_FIELDS
+                if ingress_data.get(field) is None
+            ]
         )
 
         if missing_fields:
-            logger.error("Missing required data fields for ingress relation: {}".format(", ".join(missing_fields)))
-            self.model.unit.status = BlockedStatus("Missing fields for ingress: {}".format(", ".join(missing_fields)))
+            logger.error(
+                "Missing required data fields for ingress relation: {}".format(
+                    ", ".join(missing_fields)
+                )
+            )
+            self.model.unit.status = BlockedStatus(
+                "Missing fields for ingress: {}".format(", ".join(missing_fields))
+            )
 
         # Create an event that our charm can use to decide it's okay to
         # configure the ingress.
