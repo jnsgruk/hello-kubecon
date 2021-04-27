@@ -13,14 +13,16 @@ develop a new k8s charm using the Operator Framework:
 """
 
 import logging
+import urllib
 
 from ops.charm import CharmBase
 from ops.main import main
-from ops.model import ActiveStatus, BlockedStatus
+from ops.model import ActiveStatus, BlockedStatus, MaintenanceStatus
 
 logger = logging.getLogger(__name__)
 
 STORAGE_PATH = "/var/lib/juju/storage/webroot/0"
+SITE_SRC = "https://jnsgr.uk/demo-site"
 
 
 class HelloKubeconCharm(CharmBase):
@@ -32,9 +34,8 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.config_changed, self._on_config_changed)
 
     def _on_install(self, _):
-        # Make sure a simple site is present for the workload
-        with open(f"{STORAGE_PATH}/index.html", "w") as f:
-            f.write("<h1>Hello, Kubecon!</h1>")
+        # Download the site
+        self._fetch_site()
 
     def _on_config_changed(self, event):
         """Handle the config-changed event"""
@@ -88,6 +89,16 @@ class HelloKubeconCharm(CharmBase):
             self.unit.status = BlockedStatus("No 'redirect-map' config specified")
             return False
         return True
+
+    def _fetch_site(self):
+        """Fetch latest copy of website from Github and move into webroot"""
+        # Set some status and do some logging
+        self.unit.status = MaintenanceStatus("Fetching web site")
+        logger.info("Downloading site from %s", SITE_SRC)
+        # Download the site
+        urllib.request.urlretrieve(SITE_SRC, f"{STORAGE_PATH}/index.html")
+        # Set the unit status back to Active
+        self.unit.status = ActiveStatus()
 
 
 if __name__ == "__main__":
