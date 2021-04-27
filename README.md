@@ -33,10 +33,9 @@ Each branch of this repository represents a different stage from the demonstrati
 
 - [`1-specify-workload`](https://github.com/jnsgruk/hello-kubecon/tree/1-specify-workload)
 - [`2-handle-configuration`](https://github.com/jnsgruk/hello-kubecon/tree/2-handle-configuration)
-- [`3-basic-storage`](https://github.com/jnsgruk/hello-kubecon/tree/3-basic-storage)
-- [`4-kubecon-site`](https://github.com/jnsgruk/hello-kubecon/tree/4-kubecon-site)
-- [`5-action`](https://github.com/jnsgruk/hello-kubecon/tree/5-action)
-- [`6-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/6-ingress)
+- [`3-storage`](https://github.com/jnsgruk/hello-kubecon/tree/3-storage)
+- [`4-action`](https://github.com/jnsgruk/hello-kubecon/tree/4-action)
+- [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
 ### Development Setup
