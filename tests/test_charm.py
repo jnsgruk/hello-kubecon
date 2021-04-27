@@ -31,7 +31,7 @@ class TestCharm(unittest.TestCase):
                     "startup": "enabled",
                     "environment": {
                         "REDIRECT_MAP_URL": "",
-                        "WEBROOT": "/srv/hello-kubecon",
+                        "WEBROOT": "/srv",
                     },
                 }
             },
