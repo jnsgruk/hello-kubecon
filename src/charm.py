@@ -13,10 +13,7 @@ develop a new k8s charm using the Operator Framework:
 """
 
 import logging
-import shutil
-from os.path import isdir
-from urllib.request import urlopen
-from zipfile import ZipFile
+import urllib
 
 from charms.nginx_ingress_integrator.v0.ingress import IngressRequires
 from ops.charm import CharmBase
@@ -87,7 +84,7 @@ class HelloKubeconCharm(CharmBase):
                     "startup": "enabled",
                     "environment": {
                         "REDIRECT_MAP_URL": self.config["redirect-map"],
-                        "WEBROOT": "/srv/hello-kubecon",
+                        "WEBROOT": "/srv",
                     },
                 }
             },
@@ -105,21 +102,10 @@ class HelloKubeconCharm(CharmBase):
         """Fetch latest copy of website from Github and move into webroot"""
         # Set some status and do some logging
         self.unit.status = MaintenanceStatus("Fetching web site")
-        logger.info("Downloading site archive from %s", SITE_SRC)
-        # Download the zip
-        resp = urlopen(SITE_SRC)
-        with open("/tmp/site.zip", "wb") as tmp:
-            tmp.write(resp.read())
-
-        # Extract the zip
-        with ZipFile("/tmp/site.zip") as zf:
-            zf.extractall(path="/tmp/site")
-
-        # Remove existing version if it exists
-        if isdir(f"{STORAGE_PATH}/hello-kubecon"):
-            shutil.rmtree(f"{STORAGE_PATH}/hello-kubecon")
-        # Move the downloaded web files into place
-        shutil.move(src="/tmp/site/test-site-master", dst=f"{STORAGE_PATH}/hello-kubecon")
+        logger.info("Downloading site from %s", SITE_SRC)
+        # Download the site
+        urllib.request.urlretrieve(SITE_SRC, f"{STORAGE_PATH}/index.html")
+        # Set the unit status back to Active
         self.unit.status = ActiveStatus()
 
     def _pull_site_action(self, event):
