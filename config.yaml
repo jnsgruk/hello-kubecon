@@ -5,6 +5,6 @@
 
 options:
   redirect-map:
-    default: ""
+    default: "https://jnsgr.uk/demo-routes"
     description: A URL pointing to a list of redirects for Gosherve.
     type: string
