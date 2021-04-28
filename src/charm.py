@@ -17,7 +17,7 @@ import urllib
 
 from ops.charm import CharmBase
 from ops.main import main
-from ops.model import ActiveStatus, BlockedStatus, MaintenanceStatus
+from ops.model import ActiveStatus, MaintenanceStatus
 
 logger = logging.getLogger(__name__)
 
@@ -42,10 +42,6 @@ class HelloKubeconCharm(CharmBase):
         """Handle the config-changed event"""
         # Get the gosherve container so we can configure/manipulate it
         container = self.unit.get_container("gosherve")
-        # Do not continue if the configuration is incomplete
-        if not self._check_config():
-            return
-
         # Create a new config layer
         layer = self._gosherve_layer()
         # Get the current config
@@ -82,14 +78,6 @@ class HelloKubeconCharm(CharmBase):
                 }
             },
         }
-
-    def _check_config(self):
-        """Check that everything is in place to start Gosherve"""
-        if not self.config["redirect-map"]:
-            logger.warning("Cannot start Gosherve without 'redirect-map' configuration")
-            self.unit.status = BlockedStatus("No 'redirect-map' config specified")
-            return False
-        return True
 
     def _fetch_site(self):
         """Fetch latest copy of website from Github and move into webroot"""
