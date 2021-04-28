@@ -19,7 +19,7 @@ class TestCharm(unittest.TestCase):
 
     def test_gosherve_layer(self):
         # Test with empty config.
-        self.assertEqual(self.harness.charm.config['redirect-map'], '')
+        self.assertEqual(self.harness.charm.config["redirect-map"], "https://jnsgr.uk/demo-routes")
         expected = {
             "summary": "gosherve layer",
             "description": "pebble config layer for gosherve",
@@ -30,7 +30,7 @@ class TestCharm(unittest.TestCase):
                     "command": "/gosherve",
                     "startup": "enabled",
                     "environment": {
-                        "REDIRECT_MAP_URL": "",
+                        "REDIRECT_MAP_URL": "https://jnsgr.uk/demo-routes",
                         "WEBROOT": "/srv",
                     },
                 }
@@ -73,17 +73,12 @@ class TestCharm(unittest.TestCase):
         self.assertEqual(container.get_service("gosherve").is_running(), True)
         self.assertEqual(self.harness.model.unit.status, ActiveStatus())
 
-        # Now test with empty config. Confirm that _gosherve_layer isn't called.
-        with patch("charm.HelloKubeconCharm._gosherve_layer") as _gosherve_layer:
-            self.harness.update_config({"redirect-map": ""})
-            _gosherve_layer.assert_not_called
-
-    @patch('charm.HelloKubeconCharm._fetch_site')
+    @patch("charm.HelloKubeconCharm._fetch_site")
     def test_on_install(self, _fetch_site):
         self.harness.charm._on_install("mock_event")
         _fetch_site.assert_called_once
 
-    @patch('charm.HelloKubeconCharm._fetch_site')
+    @patch("charm.HelloKubeconCharm._fetch_site")
     def test_pull_site_action(self, _fetch_site):
         mock_event = Mock()
         self.harness.charm._pull_site_action(mock_event)
