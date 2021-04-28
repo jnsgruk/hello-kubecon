@@ -52,7 +52,7 @@ do not, see the next section):
 
 ```bash
 # Deploy the charm
-$ juju deploy hello-kubecon --config redirect-map="https://jnsgr.uk/demo-routes"
+$ juju deploy hello-kubecon
 # Deploy the ingress integrator
 $ juju deploy nginx-ingress-integrator
 # Relate our app to the ingress
@@ -105,9 +105,7 @@ $ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
 # Build the charm package
 $ charmcraft build
 # Deploy!
-$ juju deploy ./hello-kubecon.charm \
-    --resource gosherve-image=jnsgruk/gosherve:latest \
-    --config redirect-map="https://jnsgr.uk/demo-routes"
+$ juju deploy ./hello-kubecon.charm --resource gosherve-image=jnsgruk/gosherve:latest
 # Deploy the ingress integrator
 $ juju deploy nginx-ingress-integrator
 # Relate our app to the ingress
