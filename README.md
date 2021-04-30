@@ -1,22 +1,32 @@
-# Operator Day 2021 Demonstration Charm
+<center>
+<h1>Operator Day 2021 Demo Charm</h1>
+<img width="500px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
+<hr/>
 
-- [Overview](#overview)
-- [Quickstart](#quickstart)
-- [Development Setup](#development-setup)
-- [Build and deploy locally](#deploy-and-build-from-source)
-- [Testing](#testing)
-- [Get Help & Community](#get-help---community)
-- [More Information/Related](#more-information-related)
+<h2>Contents</h2>
 
-## Overview
+[Overview](#overview)<br/>
+[Quickstart](#quickstart)<br/>
+[Development Setup](#development-setup)<br/>
+[Build and deploy locally](#build)<br/>
+[Testing](#testing)<br/>
+[Get Help & Community](#help)<br/>
+[More Information/Related](#more)<br/>
+
+<h2 id="overview">Overview</h2>
+<hr/>
+</center>
 
 This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
 implemeting the sidecar pattern used during
-[Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/).
+[Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/). You
+can grab the slides from the demo [here](https://jnsgr.uk/demo-slides).
+
 The charm is written using the
 [Charmed Operator Framework](https://github.com/canonical/operator).
 It deploys [gosherve](https://github.com/jnsgruk/gosherve), relying upon the
-charm container to populate a shared volume with a simple landing-page style
+charm container to populate a shared volume with a simple
+[landing-page](https://github.com/canonical-web-and-design/kubecon-2021/) style
 website and configure the app before it is started.
 
 Slides for the demo [are available](https://jnsgr.uk/demo-slides) and there
@@ -45,7 +55,10 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-## Quickstart
+<center>
+<h2 id="quickstart">Quickstart</h2>
+<hr/>
+</center>
 
 Assuming you already have Juju installed and bootstrapped on a cluster (if you
 do not, see the next section):
@@ -68,7 +81,10 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-## Development Setup
+<center>
+<h2 id="development-setup">Development Setup</h2>
+<hr/>
+</center>
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
 
@@ -88,16 +104,19 @@ $ sudo usermod -aG microk8s $(whoami)
 # Log out and log back in to make the change system-wide
 $ newgrp microk8s
 # Install Charmcraft
-$ sudo snap install charmcraft --classic --edge
+$ sudo snap install charmcraft
 # Install juju
-$ sudo snap install juju --classic --channel=2.9/candidate
+$ sudo snap install --classic juju
 # Bootstrap the Juju controller on MicroK8s
 $ juju bootstrap microk8s micro
 # Add a new model to Juju
 $ juju add-model development
 ```
 
-## Build and deploy from source
+<center>
+<h2 id="build">Build and deploy from source</h2>
+<hr/>
+</center>
 
 ```bash
 # Clone the charm code
@@ -121,7 +140,10 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-## Testing
+<center>
+<h2 id="testing">Testing</h2>
+<hr/>
+</center>
 
 ```bash
 # Clone the charm code
@@ -138,7 +160,10 @@ $ pip install -r requirements-dev.txt
 $ ./run_tests
 ```
 
-## Get Help & Community
+<center>
+<h2 id="help">Get Help & Community</h2>
+<hr/>
+</center>
 
 If you get stuck deploying this charm, or would like help with charming
 generally, come and join the charming community!
@@ -146,7 +171,10 @@ generally, come and join the charming community!
 - [Community Discourse](https://discourse.charmhub.io)
 - [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
 
-## More Information/Related
+<center>
+<h2 id="more">More Information/Related</h2>
+<hr/>
+</center>
 
 Below are some links related to this demonstration:
 
