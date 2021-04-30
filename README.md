@@ -1,19 +1,22 @@
-<div style="text-align:center">
-<h1>Operator Day 2021 Demo Charm</h1>
-<img width="500px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
+<h1 align="center">Operator Day 2021 Demo Charm</h1>
 
-<h2>Contents</h2>
+<p align="center">
+<img width="500px" height="281px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
+<p>
+  
+<h2 align="center">Contents</h2>
 
-[Overview](#overview)<br/>
-[Quickstart](#quickstart)<br/>
-[Development Setup](#development-setup)<br/>
-[Build and deploy locally](#build)<br/>
-[Testing](#testing)<br/>
-[Get Help & Community](#help)<br/>
-[More Information/Related](#more)<br/>
+<p align="center">
+  <a href="#overview">Overview</a><br/>
+  <a href="#quickstart">Quickstart</a><br/>
+  <a href="#development-setup">Development Setup</a><br/>
+  <a href="#build">Build and Deploy Locally</a><br/>
+  <a href="#testing">Testing</a><br/>
+  <a href="#help">Get Help & Community</a><br/>
+  <a href="#more">More Information/Related</a><br/>
+</p>
 
-<h2 id="overview">Overview</h2>
-</div>
+<h2 align="center" id="overview">Overview</h2>
 
 This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
 implemeting the sidecar pattern used during
@@ -53,9 +56,7 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-<div style="text-align:center">
-<h2 id="quickstart">Quickstart</h2>
-</div>
+<h2 align="center" id="quickstart">Quickstart</h2>
 
 Assuming you already have Juju installed and bootstrapped on a cluster (if you
 do not, see the next section):
@@ -78,9 +79,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<div style="text-align:center">
-<h2 id="development-setup">Development Setup</h2>
-</div>
+<h2 align="center" id="development-setup">Development Setup</h2>
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
 
@@ -109,9 +108,7 @@ $ juju bootstrap microk8s micro
 $ juju add-model development
 ```
 
-<div style="text-align:center">
-<h2 id="build">Build and deploy from source</h2>
-</div>
+<h2 align="center" id="build">Build and Deploy Locally</h2>
 
 ```bash
 # Clone the charm code
@@ -135,9 +132,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<div style="text-align:center">
-<h2 id="testing">Testing</h2>
-</div>
+<h2 align="center" id="testing">Testing</h2>
 
 ```bash
 # Clone the charm code
@@ -154,9 +149,7 @@ $ pip install -r requirements-dev.txt
 $ ./run_tests
 ```
 
-<div style="text-align:center">
-<h2 id="help">Get Help & Community</h2>
-</div>
+<h2 align="center" id="help">Get Help & Community</h2>
 
 If you get stuck deploying this charm, or would like help with charming
 generally, come and join the charming community!
@@ -164,9 +157,7 @@ generally, come and join the charming community!
 - [Community Discourse](https://discourse.charmhub.io)
 - [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
 
-<div style="text-align:center">
-<h2 id="more">More Information/Related</h2>
-</div>
+<h2 align="center" id="more">More Information/Related</h2>
 
 Below are some links related to this demonstration:
 
