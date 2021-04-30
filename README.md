@@ -114,7 +114,7 @@ $ juju add-model development
 # Clone the charm code
 $ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
 # Build the charm package
-$ charmcraft build
+$ charmcraft pack
 # Deploy!
 $ juju deploy ./hello-kubecon.charm --resource gosherve-image=jnsgruk/gosherve:latest
 # Deploy the ingress integrator
