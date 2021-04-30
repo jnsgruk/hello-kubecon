@@ -1,4 +1,4 @@
-<center>
+<p align="center>
 <h1>Operator Day 2021 Demo Charm</h1>
 <img width="500px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
 <hr/>
@@ -15,7 +15,7 @@
 
 <h2 id="overview">Overview</h2>
 <hr/>
-</center>
+</p>
 
 This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
 implemeting the sidecar pattern used during
@@ -55,10 +55,10 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-<center>
+<p align="center>
 <h2 id="quickstart">Quickstart</h2>
 <hr/>
-</center>
+</p>
 
 Assuming you already have Juju installed and bootstrapped on a cluster (if you
 do not, see the next section):
@@ -81,10 +81,10 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<center>
+<p align="center>
 <h2 id="development-setup">Development Setup</h2>
 <hr/>
-</center>
+</p>
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
 
@@ -113,10 +113,10 @@ $ juju bootstrap microk8s micro
 $ juju add-model development
 ```
 
-<center>
+<p align="center>
 <h2 id="build">Build and deploy from source</h2>
 <hr/>
-</center>
+</p>
 
 ```bash
 # Clone the charm code
@@ -140,10 +140,10 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<center>
+<p align="center>
 <h2 id="testing">Testing</h2>
 <hr/>
-</center>
+</p>
 
 ```bash
 # Clone the charm code
@@ -160,10 +160,10 @@ $ pip install -r requirements-dev.txt
 $ ./run_tests
 ```
 
-<center>
+<p align="center>
 <h2 id="help">Get Help & Community</h2>
 <hr/>
-</center>
+</p>
 
 If you get stuck deploying this charm, or would like help with charming
 generally, come and join the charming community!
@@ -171,10 +171,10 @@ generally, come and join the charming community!
 - [Community Discourse](https://discourse.charmhub.io)
 - [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
 
-<center>
+<p align="center>
 <h2 id="more">More Information/Related</h2>
 <hr/>
-</center>
+</p>
 
 Below are some links related to this demonstration:
 
