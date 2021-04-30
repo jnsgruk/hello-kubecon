@@ -1,7 +1,6 @@
 <div style="text-align:center">
 <h1>Operator Day 2021 Demo Charm</h1>
 <img width="500px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
-<hr/>
 
 <h2>Contents</h2>
 
@@ -14,7 +13,6 @@
 [More Information/Related](#more)<br/>
 
 <h2 id="overview">Overview</h2>
-<hr/>
 </div>
 
 This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
@@ -57,7 +55,6 @@ Each branch of this repository represents a different stage from the demonstrati
 
 <div style="text-align:center">
 <h2 id="quickstart">Quickstart</h2>
-<hr/>
 </div>
 
 Assuming you already have Juju installed and bootstrapped on a cluster (if you
@@ -83,7 +80,6 @@ in your browser.
 
 <div style="text-align:center">
 <h2 id="development-setup">Development Setup</h2>
-<hr/>
 </div>
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
@@ -115,7 +111,6 @@ $ juju add-model development
 
 <div style="text-align:center">
 <h2 id="build">Build and deploy from source</h2>
-<hr/>
 </div>
 
 ```bash
@@ -142,7 +137,6 @@ in your browser.
 
 <div style="text-align:center">
 <h2 id="testing">Testing</h2>
-<hr/>
 </div>
 
 ```bash
@@ -162,7 +156,6 @@ $ ./run_tests
 
 <div style="text-align:center">
 <h2 id="help">Get Help & Community</h2>
-<hr/>
 </div>
 
 If you get stuck deploying this charm, or would like help with charming
@@ -173,7 +166,6 @@ generally, come and join the charming community!
 
 <div style="text-align:center">
 <h2 id="more">More Information/Related</h2>
-<hr/>
 </div>
 
 Below are some links related to this demonstration:
