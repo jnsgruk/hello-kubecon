@@ -1,4 +1,4 @@
-<p align="center>
+<p align="center">
 <h1>Operator Day 2021 Demo Charm</h1>
 <img width="500px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
 <hr/>
@@ -55,7 +55,7 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-<p align="center>
+<p align="center">
 <h2 id="quickstart">Quickstart</h2>
 <hr/>
 </p>
@@ -81,7 +81,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<p align="center>
+<p align="center">
 <h2 id="development-setup">Development Setup</h2>
 <hr/>
 </p>
@@ -113,7 +113,7 @@ $ juju bootstrap microk8s micro
 $ juju add-model development
 ```
 
-<p align="center>
+<p align="center">
 <h2 id="build">Build and deploy from source</h2>
 <hr/>
 </p>
@@ -140,7 +140,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-<p align="center>
+<p align="center">
 <h2 id="testing">Testing</h2>
 <hr/>
 </p>
@@ -160,7 +160,7 @@ $ pip install -r requirements-dev.txt
 $ ./run_tests
 ```
 
-<p align="center>
+<p align="center">
 <h2 id="help">Get Help & Community</h2>
 <hr/>
 </p>
@@ -171,7 +171,7 @@ generally, come and join the charming community!
 - [Community Discourse](https://discourse.charmhub.io)
 - [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
 
-<p align="center>
+<p align="center">
 <h2 id="more">More Information/Related</h2>
 <hr/>
 </p>
