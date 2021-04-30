@@ -1,22 +1,33 @@
-# Operator Day 2021 Demonstration Charm
+<h1 align="center">Operator Day 2021 Demo Charm</h1>
 
-- [Overview](#overview)
-- [Quickstart](#quickstart)
-- [Development Setup](#development-setup)
-- [Build and deploy locally](#deploy-and-build-from-source)
-- [Testing](#testing)
-- [Get Help & Community](#get-help---community)
-- [More Information/Related](#more-information-related)
+<p align="center">
+<img width="500px" height="281px" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_720/https://ubuntu.com/wp-content/uploads/1957/Title-Cards-20.png"/>
+<p>
+  
+<h2 align="center">Contents</h2>
 
-## Overview
+<p align="center">
+  <a href="#overview">Overview</a><br/>
+  <a href="#quickstart">Quickstart</a><br/>
+  <a href="#development-setup">Development Setup</a><br/>
+  <a href="#build">Build and Deploy Locally</a><br/>
+  <a href="#testing">Testing</a><br/>
+  <a href="#help">Get Help & Community</a><br/>
+  <a href="#more">More Information/Related</a><br/>
+</p>
+
+<h2 align="center" id="overview">Overview</h2>
 
 This [charm](https://charmhub.io/hello-kubecon) is a demonstration of a charm
 implemeting the sidecar pattern used during
-[Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/).
+[Operator Day 2021](https://www.linkedin.com/events/6788422954821656577/). You
+can grab the slides from the demo [here](https://jnsgr.uk/demo-slides).
+
 The charm is written using the
 [Charmed Operator Framework](https://github.com/canonical/operator).
 It deploys [gosherve](https://github.com/jnsgruk/gosherve), relying upon the
-charm container to populate a shared volume with a simple landing-page style
+charm container to populate a shared volume with a simple
+[landing-page](https://github.com/canonical-web-and-design/kubecon-2021/) style
 website and configure the app before it is started.
 
 Slides for the demo [are available](https://jnsgr.uk/demo-slides) and there
@@ -45,7 +56,7 @@ Each branch of this repository represents a different stage from the demonstrati
 - [`5-ingress`](https://github.com/jnsgruk/hello-kubecon/tree/5-ingress)
 - [`master`](https://github.com/jnsgruk/hello-kubecon/)
 
-## Quickstart
+<h2 align="center" id="quickstart">Quickstart</h2>
 
 Assuming you already have Juju installed and bootstrapped on a cluster (if you
 do not, see the next section):
@@ -68,7 +79,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-## Development Setup
+<h2 align="center" id="development-setup">Development Setup</h2>
 
 To set up a local test environment with [MicroK8s](https://microk8s.io):
 
@@ -88,16 +99,16 @@ $ sudo usermod -aG microk8s $(whoami)
 # Log out and log back in to make the change system-wide
 $ newgrp microk8s
 # Install Charmcraft
-$ sudo snap install charmcraft --classic --edge
+$ sudo snap install charmcraft
 # Install juju
-$ sudo snap install juju --classic --channel=2.9/candidate
+$ sudo snap install --classic juju
 # Bootstrap the Juju controller on MicroK8s
 $ juju bootstrap microk8s micro
 # Add a new model to Juju
 $ juju add-model development
 ```
 
-## Build and deploy from source
+<h2 align="center" id="build">Build and Deploy Locally</h2>
 
 ```bash
 # Clone the charm code
@@ -121,7 +132,7 @@ $ watch -n1 --color juju status --color
 You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
 in your browser.
 
-## Testing
+<h2 align="center" id="testing">Testing</h2>
 
 ```bash
 # Clone the charm code
@@ -138,7 +149,7 @@ $ pip install -r requirements-dev.txt
 $ ./run_tests
 ```
 
-## Get Help & Community
+<h2 align="center" id="help">Get Help & Community</h2>
 
 If you get stuck deploying this charm, or would like help with charming
 generally, come and join the charming community!
@@ -146,7 +157,7 @@ generally, come and join the charming community!
 - [Community Discourse](https://discourse.charmhub.io)
 - [Community Chat](https://chat.charmhub.io/charmhub/channels/creating-charmed-operators)
 
-## More Information/Related
+<h2 align="center" id="more">More Information/Related</h2>
 
 Below are some links related to this demonstration:
 
