@@ -21,9 +21,6 @@ from ops.model import ActiveStatus, MaintenanceStatus
 
 logger = logging.getLogger(__name__)
 
-STORAGE_PATH = "/var/lib/juju/storage/webroot/0"
-SITE_SRC = "https://jnsgr.uk/demo-site"
-
 
 class HelloKubeconCharm(CharmBase):
     """Charm the service."""
@@ -80,11 +77,13 @@ class HelloKubeconCharm(CharmBase):
 
     def _fetch_site(self):
         """Fetch latest copy of website from Github and move into webroot"""
+        # Set the site URL
+        site_src = "https://jnsgr.uk/demo-site"
         # Set some status and do some logging
         self.unit.status = MaintenanceStatus("Fetching web site")
-        logger.info("Downloading site from %s", SITE_SRC)
+        logger.info("Downloading site from %s", site_src)
         # Download the site
-        urllib.request.urlretrieve(SITE_SRC, f"{STORAGE_PATH}/index.html")
+        urllib.request.urlretrieve(site_src, "/srv/index.html")
         # Set the unit status back to Active
         self.unit.status = ActiveStatus()
 
