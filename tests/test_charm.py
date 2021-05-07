@@ -76,7 +76,7 @@ class TestCharm(unittest.TestCase):
         # And finally test again with the same config to ensure we exercise
         # the case where the plan we've created matches the active one. We're
         # going to mock the container.stop and container.start calls to confirm
-        # they were called appropriately.
+        # they were not called.
         with patch('ops.model.Container.start') as _start, patch('ops.model.Container.stop') as _stop:
             self.harness.charm.on.config_changed.emit()
             _start.assert_not_called()
