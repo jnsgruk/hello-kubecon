@@ -1,6 +1,7 @@
 venv/
 build/
 *.charm
+*.swp
 
 .coverage
 **/__pycache__/
