@@ -65,15 +65,7 @@ class TestCharm(unittest.TestCase):
         # Now test again with different config, knowing that the "gosherve"
         # service is running (because we've just tested it above), so we'll
         # be testing the `is_running() == True` codepath.
-        # We also want to confirm logging here, because later on we're using
-        # lack of logging to confirm different behaviour.
-        with self.assertLogs(level='INFO') as logger:
-            self.harness.update_config({"redirect-map": "test2 value"})
-        expected_logs = [
-            "INFO:root:Added updated layer 'gosherve' to Pebble plan",
-            "INFO:root:Restarted gosherve service",
-        ]
-        self.assertEqual(sorted(logger.output), expected_logs)
+        self.harness.update_config({"redirect-map": "test2 value"})
         plan = self.harness.get_container_pebble_plan("gosherve")
         # Adjust the expected plan
         expected["services"]["gosherve"]["environment"]["REDIRECT_MAP_URL"] = "test2 value"
@@ -83,12 +75,12 @@ class TestCharm(unittest.TestCase):
 
         # And finally test again with the same config to ensure we exercise
         # the case where the plan we've created matches the active one. We're
-        # asserting that we raise an error here because there are no logs of
-        # level INFO or higher. This is a proxy for confirming we're not adding
-        # a pebble layer or restarting the service, as we log those things.
-        with self.assertRaises(AssertionError):
-            with self.assertLogs(level='INFO'):
-                self.harness.charm.on.config_changed.emit()
+        # going to mock the container.stop and container.start calls to confirm
+        # they were called appropriately.
+        with patch('ops.model.Container.start') as _start, patch('ops.model.Container.stop') as _stop:
+            self.harness.charm.on.config_changed.emit()
+            _start.assert_not_called()
+            _stop.assert_not_called()
 
     @patch("charm.HelloKubeconCharm._fetch_site")
     def test_on_install(self, _fetch_site):
