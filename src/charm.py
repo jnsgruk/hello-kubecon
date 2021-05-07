@@ -51,7 +51,7 @@ class HelloKubeconCharm(CharmBase):
         # Get the current config
         services = container.get_plan().to_dict().get("services", [])
         # Check if there are any changes to services
-        if not services or services != layer["services"]:
+        if services != layer["services"]:
             # Changes were made, add the new layer
             container.add_layer("gosherve", layer, combine=True)
             logging.info("Added updated layer 'gosherve' to Pebble plan")
