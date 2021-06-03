@@ -68,8 +68,6 @@ $ juju deploy hello-kubecon
 $ juju deploy nginx-ingress-integrator
 # Relate our app to the ingress
 $ juju relate hello-kubecon nginx-ingress-integrator
-# Set the ingress class
-$ juju config nginx-ingress-integrator ingress-class="public"
 # Add an entry to /etc/hosts
 $ echo "127.0.1.1 hellokubecon.juju" | sudo tee -a /etc/hosts
 # Wait for the deployment to complete
@@ -121,8 +119,6 @@ $ juju deploy ./hello-kubecon.charm --resource gosherve-image=jnsgruk/gosherve:l
 $ juju deploy nginx-ingress-integrator
 # Relate our app to the ingress
 $ juju relate hello-kubecon nginx-ingress-integrator
-# Set the ingress class
-$ juju config nginx-ingress-integrator ingress-class="public"
 # Add an entry to /etc/hosts
 $ echo "127.0.1.1 hellokubecon.juju" | sudo tee -a /etc/hosts
 # Wait for the deployment to complete
