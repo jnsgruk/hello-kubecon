@@ -4,6 +4,12 @@
 # Learn more about config at: https://juju.is/docs/sdk/config
 
 options:
+  external-hostname:
+    default: ""
+    description: >
+      The external hostname this application should be available on. If unset,
+      it will default to the deployed application name in the model.
+    type: string
   redirect-map:
     default: "https://jnsgr.uk/demo-routes"
     description: A URL pointing to a list of redirects for Gosherve.

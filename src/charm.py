@@ -33,10 +33,18 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.pull_site_action, self._pull_site_action)
 
         self.ingress = IngressRequires(self, {
-            "service-hostname": "hellokubecon.juju",
+            "service-hostname": self._external_hostname,
             "service-name": self.app.name,
             "service-port": 8080
         })
+
+    @property
+    def _external_hostname(self):
+        """Return the external hostname to be passed to ingress via the relation."""
+        # It is recommended to default to `self.app.name` so that the external
+        # hostname will correspond to the deployed application name in the
+        # model, but allow it to be set to something specific via config.
+        return self.config["external-hostname"] or self.app.name
 
     def _on_install(self, _):
         # Download the site
