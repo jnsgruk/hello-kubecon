@@ -33,7 +33,7 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.pull_site_action, self._pull_site_action)
 
         self.ingress = IngressRequires(self, {
-            "service-hostname": "hellokubecon.juju",
+            "service-hostname": self.app.name,
             "service-name": self.app.name,
             "service-port": 8080
         })
