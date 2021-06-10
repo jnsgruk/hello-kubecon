@@ -66,7 +66,7 @@ class HelloKubeconCharm(CharmBase):
             # defer the event, meaning it will be retried the next time any
             # hook is executed. We don't have an explicit handler for
             # `self.on.gosherve_pebble_ready` but this method will be rerun
-            # when that condition is met (because of event.`defer()`), and so
+            # when that condition is met (because of `event.defer()`), and so
             # the `get_container` call will succeed and we'll continue to the
             # subsequent steps.
             event.defer()
