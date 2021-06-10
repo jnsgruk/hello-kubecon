@@ -54,8 +54,12 @@ class HelloKubeconCharm(CharmBase):
     def _on_config_changed(self, event):
         """Handle the config-changed event"""
         # Get the gosherve container so we can configure/manipulate it
+        container = self.unit.get_container("gosherve")
+        # Create a new config layer
+        layer = self._gosherve_layer()
         try:
-            container = self.unit.get_container("gosherve")
+            # Get the current config
+            services = container.get_plan().to_dict().get("services", {})
         except ConnectionError:
             # Since this is a config-changed handler and that hook can execute
             # before pebble is ready, we may get a connection error here. Let's
@@ -67,10 +71,6 @@ class HelloKubeconCharm(CharmBase):
             # subsequent steps.
             event.defer()
             return
-        # Create a new config layer
-        layer = self._gosherve_layer()
-        # Get the current config
-        services = container.get_plan().to_dict().get("services", {})
         # Check if there are any changes to services
         if services != layer["services"]:
             # Changes were made, add the new layer
