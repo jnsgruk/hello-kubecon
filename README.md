@@ -74,7 +74,7 @@ $ echo "127.0.1.1 hello-kubecon" | sudo tee -a /etc/hosts
 $ watch -n1 --color juju status --color
 ```
 
-You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
+You should be able to visit [http://hello-kubecon](http://hello-kubecon)
 in your browser.
 
 <h2 align="center" id="development-setup">Development Setup</h2>
@@ -125,7 +125,7 @@ $ echo "127.0.1.1 hello-kubecon" | sudo tee -a /etc/hosts
 $ watch -n1 --color juju status --color
 ```
 
-You should be able to visit [http://hellokubecon.juju](http://hellokubecon.juju)
+You should be able to visit [http://hello-kubecon](http://hello-kubecon)
 in your browser.
 
 <h2 align="center" id="testing">Testing</h2>
