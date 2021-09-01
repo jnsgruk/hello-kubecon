@@ -19,7 +19,6 @@ from charms.nginx_ingress_integrator.v0.ingress import IngressRequires
 from ops.charm import CharmBase
 from ops.main import main
 from ops.model import ActiveStatus, MaintenanceStatus
-from ops.pebble import ConnectionError
 
 logger = logging.getLogger(__name__)
 
@@ -57,31 +56,19 @@ class HelloKubeconCharm(CharmBase):
         container = self.unit.get_container("gosherve")
         # Create a new config layer
         layer = self._gosherve_layer()
-        try:
+
+        with container.is_ready():
             # Get the current config
             services = container.get_plan().to_dict().get("services", {})
-        except ConnectionError:
-            # Since this is a config-changed handler and that hook can execute
-            # before pebble is ready, we may get a connection error here. Let's
-            # defer the event, meaning it will be retried the next time any
-            # hook is executed. We don't have an explicit handler for
-            # `self.on.gosherve_pebble_ready` but this method will be rerun
-            # when that condition is met (because of `event.defer()`), and so
-            # the `get_container` call will succeed and we'll continue to the
-            # subsequent steps.
-            event.defer()
-            return
-        # Check if there are any changes to services
-        if services != layer["services"]:
-            # Changes were made, add the new layer
-            container.add_layer("gosherve", layer, combine=True)
-            logging.info("Added updated layer 'gosherve' to Pebble plan")
-            # Stop the service if it is already running
-            if container.get_service("gosherve").is_running():
-                container.stop("gosherve")
-            # Restart it and report a new status to Juju
-            container.start("gosherve")
-            logging.info("Restarted gosherve service")
+            # Check if there are any changes to services
+            if services != layer["services"]:
+                # Changes were made, add the new layer
+                container.add_layer("gosherve", layer, combine=True)
+                logging.info("Added updated layer 'gosherve' to Pebble plan")
+                # Restart it and report a new status to Juju
+                container.restart("gosherve")
+                logging.info("Restarted gosherve service")
+
         # All is well, set an ActiveStatus
         self.unit.status = ActiveStatus()
 
