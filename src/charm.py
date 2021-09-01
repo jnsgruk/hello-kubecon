@@ -41,19 +41,19 @@ class HelloKubeconCharm(CharmBase):
         container = self.unit.get_container("gosherve")
         # Create a new config layer
         layer = self._gosherve_layer()
-        # Get the current config
-        services = container.get_plan().to_dict().get("services", {})
-        # Check if there are any changes to services
-        if services != layer["services"]:
-            # Changes were made, add the new layer
-            container.add_layer("gosherve", layer, combine=True)
-            logging.info("Added updated layer 'gosherve' to Pebble plan")
-            # Stop the service if it is already running
-            if container.get_service("gosherve").is_running():
-                container.stop("gosherve")
-            # Restart it and report a new status to Juju
-            container.start("gosherve")
-            logging.info("Restarted gosherve service")
+
+        with container.is_ready():
+            # Get the current config
+            services = container.get_plan().to_dict().get("services", {})
+            # Check if there are any changes to services
+            if services != layer["services"]:
+                # Changes were made, add the new layer
+                container.add_layer("gosherve", layer, combine=True)
+                logging.info("Added updated layer 'gosherve' to Pebble plan")
+                # Restart it and report a new status to Juju
+                container.restart("gosherve")
+                logging.info("Restarted gosherve service")
+
         # All is well, set an ActiveStatus
         self.unit.status = ActiveStatus()
 
