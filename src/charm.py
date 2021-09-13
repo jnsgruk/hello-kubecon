@@ -17,7 +17,7 @@ import urllib
 
 from ops.charm import CharmBase
 from ops.main import main
-from ops.model import ActiveStatus, MaintenanceStatus
+from ops.model import ActiveStatus, MaintenanceStatus, WaitingStatus
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class HelloKubeconCharm(CharmBase):
         # Create a new config layer
         layer = self._gosherve_layer()
 
-        with container.is_ready():
+        if container.can_connect():
             # Get the current config
             services = container.get_plan().to_dict().get("services", {})
             # Check if there are any changes to services
@@ -53,9 +53,10 @@ class HelloKubeconCharm(CharmBase):
                 # Restart it and report a new status to Juju
                 container.restart("gosherve")
                 logging.info("Restarted gosherve service")
-
-        # All is well, set an ActiveStatus
-        self.unit.status = ActiveStatus()
+            # All is well, set an ActiveStatus
+            self.unit.status = ActiveStatus()
+        else:
+            self.unit.status = WaitingStatus("waiting for Pebble in workload container")
 
     def _gosherve_layer(self):
         """Returns a Pebble configration layer for Gosherve"""
