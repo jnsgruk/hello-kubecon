@@ -76,6 +76,8 @@ class HelloKubeconCharm(CharmBase):
         else:
             self.unit.status = WaitingStatus("waiting for Pebble in workload container")
 
+        self.ingress.update_config({"service-hostname": self._external_hostname})
+
     def _gosherve_layer(self):
         """Returns a Pebble configration layer for Gosherve"""
         return {

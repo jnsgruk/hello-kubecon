@@ -11,10 +11,14 @@ Import `IngressRequires` in your charm, with two required options:
     - service-hostname (required)
     - service-name (required)
     - service-port (required)
+    - additional-hostnames
     - limit-rps
     - limit-whitelist
-    - max_body-size
+    - max-body-size
+    - path-routes
     - retry-errors
+    - rewrite-enabled
+    - rewrite-target
     - service-namespace
     - session-cookie-max-age
     - tls-secret-name
@@ -40,6 +44,11 @@ requires:
   ingress:
     interface: ingress
 ```
+You _must_ register the IngressRequires class as part of the `__init__` method
+rather than, for instance, a config-changed event handler. This is because
+doing so won't get the current relation changed event, because it wasn't
+registered to handle the event (because it wasn't created in `__init__` when
+the event was fired).
 """
 
 import logging
@@ -56,7 +65,7 @@ LIBAPI = 0
 
 # Increment this PATCH version before using `charmcraft publish-lib` or reset
 # to 0 if you are raising the major API version
-LIBPATCH = 5
+LIBPATCH = 9
 
 logger = logging.getLogger(__name__)
 
@@ -67,13 +76,17 @@ REQUIRED_INGRESS_RELATION_FIELDS = {
 }
 
 OPTIONAL_INGRESS_RELATION_FIELDS = {
+    "additional-hostnames",
     "limit-rps",
     "limit-whitelist",
     "max-body-size",
     "retry-errors",
+    "rewrite-target",
+    "rewrite-enabled",
     "service-namespace",
     "session-cookie-max-age",
     "tls-secret-name",
+    "path-routes",
 }
 
 
