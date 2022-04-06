@@ -85,11 +85,11 @@ class TestCharm(unittest.TestCase):
     @patch("charm.HelloKubeconCharm._fetch_site")
     def test_on_install(self, _fetch_site):
         self.harness.charm._on_install("mock_event")
-        _fetch_site.assert_called_once
+        _fetch_site.assert_called_once()
 
     @patch("charm.HelloKubeconCharm._fetch_site")
     def test_pull_site_action(self, _fetch_site):
         mock_event = Mock()
         self.harness.charm._pull_site_action(mock_event)
-        _fetch_site.assert_called_once
+        _fetch_site.assert_called_once()
         mock_event.called_once_with({"result": "site pulled"})
