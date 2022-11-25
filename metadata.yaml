@@ -9,6 +9,9 @@ description: |
 summary: |
   A demonstration charm for Kubecon Operator Day 2021.
 
+assumes:
+  - k8s-api
+
 containers:
   gosherve:
     resource: gosherve-image
