@@ -45,6 +45,8 @@ class TestCharm(unittest.TestCase):
         self.assertEqual(self.harness.charm._gosherve_layer(), expected)
 
     def test_on_config_changed(self):
+        # Let the harness know that the container's Pebble is available on the socket
+        self.harness.set_can_connect("gosherve", True)
         plan = self.harness.get_container_pebble_plan("gosherve")
         self.assertEqual(plan.to_dict(), {})
         # Trigger a config-changed hook. Since there was no plan initially, the
