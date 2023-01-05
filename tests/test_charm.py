@@ -6,9 +6,13 @@
 import unittest
 from unittest.mock import Mock, patch
 
+import ops.testing
 from charm import HelloKubeconCharm
 from ops.model import ActiveStatus
 from ops.testing import Harness
+
+
+ops.testing.SIMULATE_CAN_CONNECT = True
 
 
 class TestCharm(unittest.TestCase):
