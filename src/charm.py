@@ -15,7 +15,7 @@ develop a new k8s charm using the Operator Framework:
 import logging
 import urllib
 
-from charms.nginx_ingress_integrator.v0.ingress import IngressRequires
+from charms.nginx_ingress_integrator.v0.nginx_route import require_nginx_route
 from ops.charm import CharmBase
 from ops.main import main
 from ops.model import ActiveStatus, MaintenanceStatus, WaitingStatus
@@ -33,13 +33,11 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.gosherve_pebble_ready, self._on_config_changed)
         self.framework.observe(self.on.pull_site_action, self._pull_site_action)
 
-        self.ingress = IngressRequires(
-            self,
-            {
-                "service-hostname": self._external_hostname,
-                "service-name": self.app.name,
-                "service-port": 8080,
-            },
+        require_nginx_route(
+            charm=self,
+            service_hostname=self._external_hostname,
+            service_name=self.app.name,
+            service_port=8080
         )
 
     @property
@@ -76,8 +74,6 @@ class HelloKubeconCharm(CharmBase):
             self.unit.status = ActiveStatus()
         else:
             self.unit.status = WaitingStatus("waiting for Pebble in workload container")
-
-        self.ingress.update_config({"service-hostname": self._external_hostname})
 
     def _gosherve_layer(self):
         """Returns a Pebble configration layer for Gosherve"""
