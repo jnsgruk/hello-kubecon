@@ -30,5 +30,5 @@ storage:
     location: /srv
 
 requires:
-  ingress:
-    interface: ingress
+  nginx-route:
+    interface: nginx-route
