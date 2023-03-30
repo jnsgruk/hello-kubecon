@@ -15,7 +15,7 @@ develop a new k8s charm using the Operator Framework:
 import logging
 import urllib
 
-from charms.nginx_ingress_integrator.v0.ingress import IngressRequires
+from charms.traefik_k8s.v1.ingress import IngressPerAppRequirer
 from ops.charm import CharmBase
 from ops.main import main
 from ops.model import ActiveStatus, MaintenanceStatus, WaitingStatus
@@ -32,23 +32,11 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         self.framework.observe(self.on.gosherve_pebble_ready, self._on_config_changed)
         self.framework.observe(self.on.pull_site_action, self._pull_site_action)
-
-        self.ingress = IngressRequires(
+        self.ingress = IngressPerAppRequirer(
             self,
-            {
-                "service-hostname": self._external_hostname,
-                "service-name": self.app.name,
-                "service-port": 8080,
-            },
+            host=f"{self.app.name}-endpoints.{self.model.name}.svc.cluster.local",
+            port=8080,
         )
-
-    @property
-    def _external_hostname(self):
-        """Return the external hostname to be passed to ingress via the relation."""
-        # It is recommended to default to `self.app.name` so that the external
-        # hostname will correspond to the deployed application name in the
-        # model, but allow it to be set to something specific via config.
-        return self.config["external-hostname"] or self.app.name
 
     def _on_install(self, _):
         # Download the site
@@ -76,8 +64,6 @@ class HelloKubeconCharm(CharmBase):
             self.unit.status = ActiveStatus()
         else:
             self.unit.status = WaitingStatus("waiting for Pebble in workload container")
-
-        self.ingress.update_config({"service-hostname": self._external_hostname})
 
     def _gosherve_layer(self):
         """Returns a Pebble configration layer for Gosherve"""

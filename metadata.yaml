@@ -32,3 +32,4 @@ storage:
 requires:
   ingress:
     interface: ingress
+    limit: 1
