@@ -62,19 +62,23 @@ Assuming you already have Juju installed and bootstrapped on a cluster (if you
 do not, see the next section):
 
 ```bash
+# Create a juju model
+$ juju add-model dev
 # Deploy the charm
 $ juju deploy hello-kubecon
-# Deploy the ingress integrator
-$ juju deploy nginx-ingress-integrator
+# Deploy the ingress charm
+$ juju deploy traefik-k8s --trust
+$ juju config traefik-k8s external_hostname=juju.local
+$ juju config traefik-k8s routing_mode=subdomain
 # Relate our app to the ingress
-$ juju relate hello-kubecon nginx-ingress-integrator
-# Add an entry to /etc/hosts
-$ echo "127.0.1.1 hello-kubecon" | sudo tee -a /etc/hosts
+$ juju relate hello-kubecon traefik-k8s
 # Wait for the deployment to complete
 $ watch -n1 --color juju status --color
+# Add an entry to /etc/hosts
+$ echo "<traefik-k8s-address> dev-hello-kubecon.juju.local" | sudo tee -a /etc/hosts
 ```
 
-You should be able to visit [http://hello-kubecon](http://hello-kubecon)
+You should be able to visit [http://dev-hello-kubecon.juju.local](http://dev-hello-kubecon.juju.local)
 in your browser.
 
 <h2 align="center" id="development-setup">Development Setup</h2>
@@ -87,7 +91,7 @@ $ sudo snap install --classic microk8s
 # Wait for MicroK8s to be ready
 $ sudo microk8s status --wait-ready
 # Enable features required by Juju controller & charm
-$ sudo microk8s enable storage dns ingress
+$ sudo microk8s enable storage dns metallb
 # (Optional) Alias kubectl bundled with MicroK8s package
 $ sudo snap alias microk8s.kubectl kubectl
 # (Optional) Add current user to 'microk8s' group
@@ -113,19 +117,23 @@ $ juju add-model development
 $ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
 # Build the charm package
 $ charmcraft pack
+# Create a juju model
+$ juju add-model dev
 # Deploy!
-$ juju deploy ./hello-kubecon.charm --resource gosherve-image=jnsgruk/gosherve:latest
-# Deploy the ingress integrator
-$ juju deploy nginx-ingress-integrator
+$ juju deploy ./hello-kubecon_ubuntu-20.04-amd64.charm --resource gosherve-image=jnsgruk/gosherve:latest
+# Deploy the ingress charm
+$ juju deploy traefik-k8s --trust
+$ juju config traefik-k8s external_hostname=juju.local
+$ juju config traefik-k8s routing_mode=subdomain
 # Relate our app to the ingress
-$ juju relate hello-kubecon nginx-ingress-integrator
-# Add an entry to /etc/hosts
-$ echo "127.0.1.1 hello-kubecon" | sudo tee -a /etc/hosts
+$ juju relate hello-kubecon traefik-k8s
 # Wait for the deployment to complete
 $ watch -n1 --color juju status --color
+# Add an entry to /etc/hosts
+$ echo "<traefik-k8s-address> dev-hello-kubecon.juju.local" | sudo tee -a /etc/hosts
 ```
 
-You should be able to visit [http://hello-kubecon](http://hello-kubecon)
+You should be able to visit [http://dev-hello-kubecon.juju.local](http://dev-hello-kubecon.juju.local)
 in your browser.
 
 <h2 align="center" id="testing">Testing</h2>
