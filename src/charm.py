@@ -34,8 +34,9 @@ class HelloKubeconCharm(CharmBase):
         self.framework.observe(self.on.pull_site_action, self._pull_site_action)
         self.ingress = IngressPerAppRequirer(
             self,
-            host=f"{self.app.name}-endpoints.{self.model.name}.svc.cluster.local",
             port=8080,
+            host=f"{self.app.name}-endpoints.{self.model.name}.svc.cluster.local",
+            strip_prefix=True
         )
 
     def _on_install(self, _):
