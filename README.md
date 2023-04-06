@@ -63,22 +63,22 @@ do not, see the next section):
 
 ```bash
 # Create a juju model
-$ juju add-model test-hello
+$ juju add-model dev
 # Deploy the charm
 $ juju deploy hello-kubecon
 # Deploy the ingress charm
 $ juju deploy traefik-k8s --trust
-$ juju config traefik-k8s external_hostname=hello-kubecon
+$ juju config traefik-k8s external_hostname=juju.local
 $ juju config traefik-k8s routing_mode=subdomain
 # Relate our app to the ingress
 $ juju relate hello-kubecon traefik-k8s
 # Wait for the deployment to complete
 $ watch -n1 --color juju status --color
 # Add an entry to /etc/hosts
-$ echo "<traefik-k8s-address> test-hello-hello-kubecon.hello-kubecon" | sudo tee -a /etc/hosts
+$ echo "<traefik-k8s-address> dev-hello-kubecon.juju.local" | sudo tee -a /etc/hosts
 ```
 
-You should be able to visit [http://test-hello-hello-kubecon.hello-kubecon](http://test-hello-hello-kubecon.hello-kubecon)
+You should be able to visit [http://dev-hello-kubecon.juju.local](http://dev-hello-kubecon.juju.local)
 in your browser.
 
 <h2 align="center" id="development-setup">Development Setup</h2>
@@ -118,22 +118,22 @@ $ git clone https://github.com/jnsgruk/hello-kubecon && cd hello-kubecon
 # Build the charm package
 $ charmcraft pack
 # Create a juju model
-$ juju add-model test-hello
+$ juju add-model dev
 # Deploy!
 $ juju deploy ./hello-kubecon_ubuntu-20.04-amd64.charm --resource gosherve-image=jnsgruk/gosherve:latest
 # Deploy the ingress charm
 $ juju deploy traefik-k8s --trust
-$ juju config traefik-k8s external_hostname=hello-kubecon
+$ juju config traefik-k8s external_hostname=juju.local
 $ juju config traefik-k8s routing_mode=subdomain
 # Relate our app to the ingress
 $ juju relate hello-kubecon traefik-k8s
 # Wait for the deployment to complete
 $ watch -n1 --color juju status --color
 # Add an entry to /etc/hosts
-$ echo "<traefik-k8s-address> test-hello-hello-kubecon.hello-kubecon" | sudo tee -a /etc/hosts
+$ echo "<traefik-k8s-address> dev-hello-kubecon.juju.local" | sudo tee -a /etc/hosts
 ```
 
-You should be able to visit [http://hello-kubecon](http://hello-kubecon)
+You should be able to visit [http://dev-hello-kubecon.juju.local](http://dev-hello-kubecon.juju.local)
 in your browser.
 
 <h2 align="center" id="testing">Testing</h2>
