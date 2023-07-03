@@ -107,7 +107,7 @@ $ sudo snap install --classic juju
 # Bootstrap the Juju controller on MicroK8s
 $ juju bootstrap microk8s micro
 # Add a new model to Juju
-$ juju add-model development
+$ juju add-model dev
 ```
 
 <h2 align="center" id="build">Build and Deploy Locally</h2>
