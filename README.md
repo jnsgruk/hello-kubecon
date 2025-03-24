@@ -6,6 +6,11 @@
   
 <h2 align="center">Contents</h2>
 
+> [!WARNING]  
+> This charm is now quite out of date. Feel free to follow the example from the YouTube video, but
+> note that charming practices have evolved. For more information, see https://juju.is/docs/sdk,
+> or get in touch with us on the [Ubuntu Matrix](https://kagi.com/search?q=ubuntu+martrix)!
+
 <p align="center">
   <a href="#overview">Overview</a><br/>
   <a href="#quickstart">Quickstart</a><br/>
