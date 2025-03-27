@@ -9,7 +9,7 @@
 > [!WARNING]  
 > This charm is now quite out of date. Feel free to follow the example from the YouTube video, but
 > note that charming practices have evolved. For more information, see https://juju.is/docs/sdk,
-> or get in touch with us on the [Ubuntu Matrix](https://kagi.com/search?q=ubuntu+martrix)!
+> or get in touch with us on the [Ubuntu Matrix](https://ubuntu.com/community/communications/matrix)!
 
 <p align="center">
   <a href="#overview">Overview</a><br/>
